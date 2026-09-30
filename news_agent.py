@@ -1,0 +1,584 @@
+"""
+Radar de Mercado — agente de notícias para WhatsApp
+Fluxo: RSS -> dedupe (id + intra-day) -> Claude seleciona -> busca corpo real
+(trafilatura) -> Claude redige por artigo -> Evolution API (grupo WhatsApp)
+"""
+
+import json
+import os
+import re
+import time
+import hashlib
+import requests
+import feedparser
+import trafilatura
+from trafilatura.settings import use_config
+from datetime import datetime, timedelta, timezone
+
+# ---------------------------------------------------------------
+# Config
+# ---------------------------------------------------------------
+
+FEEDS = [
+    # Brasil — valide/ajuste as URLs, feeds mudam de tempos em tempos.
+    # A ordem NÃO é prioridade: fetch_articles() intercala as fontes (round-robin),
+    # senão o Valor (~85 matérias/6h) enche o teto sozinho.
+    "https://pox.globo.com/rss/valor",              # Valor Econômico (macro/mercado)
+    "https://pox.globo.com/rss/valor/brasil",       # Valor Brasil (política/fiscal)
+    "https://braziljournal.com/feed/",              # Brazil Journal (mercado/corporativo)
+    "https://www.infomoney.com.br/feed/",
+    "https://g1.globo.com/rss/g1/economia/",
+    "https://agenciabrasil.ebc.com.br/rss/economia/feed.xml",
+    # Global
+    "https://feeds.bbci.co.uk/news/business/rss.xml",
+    "https://feeds.content.dowjones.io/public/rss/mw_topstories",
+    "https://search.cnbc.com/rs/search/combinedcms/view.xml?partnerId=wrss01&id=15839069",
+]
+
+# A janela precisa cobrir o intervalo ENTRE disparos, senão sobra ponto cego.
+# Com 2 disparos/dia (07h e 18h BRT) o maior intervalo é ~15h; 18h dá folga para
+# o atraso do cron do GitHub. O dedupe por ID evita reprocessar a sobreposição.
+MAX_AGE_HOURS = 18         # ignora notícias mais velhas que isso
+# Válvula de segurança, NÃO filtro editorial: alto o bastante para não cortar
+# (18h rende ~200 artigos). Quem faz curadoria é a passada de seleção do Claude.
+MAX_ITEMS_TO_CLAUDE = 250  # teto de headlines por ciclo
+MAX_NEWS = 5               # teto de NOTÍCIAS na mensagem final
+SELECT_EXTRA = 2           # candidatas reserva: a redação descarta texto ruim sem encolher o digest
+MAX_BODY_CHARS = 6000      # teto do texto extraído por artigo (controla custo/tokens)
+# Gate do corpo extraído. Páginas "ao vivo" (JS) fazem o extrator pegar teaser de OUTRA
+# matéria; paywall devolve só título + 1 parágrafo. Nos dois casos o texto vem
+# não-vazio e, sem gate, iria pro modelo — que escreve "texto não traz detalhes".
+BODY_MIN_TITLE_OVERLAP = 0.5   # fração das palavras fortes do título presentes no corpo
+BODY_MIN_GAIN = 1.5            # corpo precisa ter >= 1.5x o tamanho do summary pra valer
+SENT_IDS_FILE = "sent_ids.json"
+SENT_TODAY_FILE = "sent_today.json"   # memória intra-day (dedupe semântico)
+MAX_SENT_TODAY = 100       # cap defensivo (um dia real fica bem abaixo disso)
+
+# timeout curto no download do corpo — o job do Actions não pode travar num feed lento
+_TRAFILATURA_CFG = use_config()
+_TRAFILATURA_CFG.set("DEFAULT", "DOWNLOAD_TIMEOUT", "20")
+
+ANTHROPIC_API_KEY = os.environ["ANTHROPIC_API_KEY"]
+ANTHROPIC_MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-5")
+
+EVOLUTION_BASE_URL = os.environ["EVOLUTION_BASE_URL"].rstrip("/")   # ex: https://minha-evolution.up.railway.app
+EVOLUTION_API_KEY = os.environ["EVOLUTION_API_KEY"]
+EVOLUTION_INSTANCE = os.environ["EVOLUTION_INSTANCE"]               # nome da instância criada na Evolution
+# Um ou mais grupos, separados por vírgula no secret WHATSAPP_GROUP_JID.
+# Ex: "120363111@g.us,120363222@g.us". Com um JID só, funciona igual a antes.
+WHATSAPP_GROUP_JIDS = [
+    j.strip() for j in os.environ["WHATSAPP_GROUP_JID"].split(",") if j.strip()
+]
+BROADCAST_DELAY_SECONDS = 5   # buffer entre envios a grupos diferentes
+
+
+# ---------------------------------------------------------------
+# Helpers
+# ---------------------------------------------------------------
+
+def now_brt() -> datetime:
+    """Horário atual em BRT (UTC-3 fixo; o Brasil não tem mais horário de verão)."""
+    return datetime.now(timezone.utc) - timedelta(hours=3)
+
+
+# ---------------------------------------------------------------
+# 1. Coleta
+# ---------------------------------------------------------------
+
+def article_id(entry) -> str:
+    raw = entry.get("id") or entry.get("link") or entry.get("title", "")
+    return hashlib.sha256(raw.encode()).hexdigest()[:16]
+
+
+def clean_summary(entry) -> str:
+    raw = entry.get("summary", "") or ""
+    text = re.sub(r"<[^>]+>", "", raw)          # remove tags HTML
+    text = re.sub(r"\s+", " ", text).strip()     # normaliza espaços
+    return text[:400]                            # teto de tamanho
+
+
+def fetch_articles() -> list[dict]:
+    """Coleta os feeds e INTERCALA as fontes (round-robin: 1 de cada por rodada).
+    Sem isso, uma fonte prolífica (o Valor publica ~85 matérias em 6h) enche
+    sozinha o teto MAX_ITEMS_TO_CLAUDE e as demais nunca chegam ao Claude."""
+    cutoff = datetime.now(timezone.utc) - timedelta(hours=MAX_AGE_HOURS)
+    por_feed: list[list[dict]] = []
+    for url in FEEDS:
+        do_feed = []
+        try:
+            feed = feedparser.parse(url)
+            source = feed.feed.get("title", url)
+            for e in feed.entries:
+                published = None
+                for key in ("published_parsed", "updated_parsed"):
+                    if e.get(key):
+                        published = datetime(*e[key][:6], tzinfo=timezone.utc)
+                        break
+                if published and published < cutoff:
+                    continue
+                do_feed.append({
+                    "id": article_id(e),
+                    "title": e.get("title", "").strip(),
+                    "summary": clean_summary(e),
+                    "link": e.get("link", ""),
+                    "source": source,
+                })
+        except Exception as ex:
+            print(f"[warn] feed falhou {url}: {ex}")
+        if do_feed:
+            por_feed.append(do_feed)
+
+    # intercala: article[0] de cada feed, depois article[1] de cada, e assim por diante
+    articles = []
+    for i in range(max((len(f) for f in por_feed), default=0)):
+        for do_feed in por_feed:
+            if i < len(do_feed):
+                articles.append(do_feed[i])
+    return articles
+
+
+# ---------------------------------------------------------------
+# 1b. Corpo real do artigo (trafilatura)
+# ---------------------------------------------------------------
+
+def fetch_article_body(link: str) -> str | None:
+    """Baixa a página e extrai o texto principal. Devolve None se falhar
+    (paywall, bloqueio, timeout) — o chamador cai de volta pro summary do RSS."""
+    if not link:
+        return None
+    try:
+        downloaded = trafilatura.fetch_url(link, config=_TRAFILATURA_CFG)
+        if not downloaded:
+            return None
+        text = trafilatura.extract(
+            downloaded,
+            include_comments=False,
+            include_tables=False,
+            config=_TRAFILATURA_CFG,
+        )
+        if not text:
+            return None
+        return text.strip()[:MAX_BODY_CHARS]
+    except Exception as ex:
+        print(f"[warn] extração de corpo falhou {link}: {ex}")
+        return None
+
+
+def usable_body(body: str | None, title: str, summary: str) -> bool:
+    """O corpo extraído só serve se (1) for da matéria certa — palavras fortes do
+    título aparecem nele — e (2) acrescentar texto além do summary do RSS."""
+    if not body:
+        return False
+    strong = {w for w in re.findall(r"\w+", title.lower()) if len(w) > 4}
+    if strong:
+        low = body.lower()
+        overlap = sum(1 for w in strong if w in low) / len(strong)
+        if overlap < BODY_MIN_TITLE_OVERLAP:
+            return False
+    return len(body) >= BODY_MIN_GAIN * max(len(summary), 1)
+
+
+# ---------------------------------------------------------------
+# 2. Dedupe
+# ---------------------------------------------------------------
+
+def load_sent_ids() -> set:
+    if os.path.exists(SENT_IDS_FILE):
+        try:
+            with open(SENT_IDS_FILE) as f:
+                return set(json.load(f))
+        except (json.JSONDecodeError, OSError):
+            print("[warn] sent_ids.json corrompido/ilegível — recomeçando o dedupe vazio")
+    return set()   # arquivo ausente ou corrompido -> não derruba o job
+
+
+def save_sent_ids(ids: set):
+    # mantém só os 2000 mais recentes pra não crescer infinito
+    with open(SENT_IDS_FILE, "w") as f:
+        json.dump(list(ids)[-2000:], f)
+
+
+# ---------------------------------------------------------------
+# 2b. Memória intra-day (dedupe semântico)
+# ---------------------------------------------------------------
+
+def load_sent_today() -> list[dict]:
+    """Manchetes já enviadas HOJE (BRT). Zera sozinha à meia-noite BRT:
+    se a data gravada for de outro dia, devolve lista vazia (reset preguiçoso)."""
+    today = now_brt().strftime("%Y-%m-%d")
+    if os.path.exists(SENT_TODAY_FILE):
+        try:
+            with open(SENT_TODAY_FILE, encoding="utf-8") as f:
+                data = json.load(f)
+            if data.get("date") == today:
+                return data.get("headlines", [])
+        except (json.JSONDecodeError, OSError):
+            pass
+    return []   # dia novo, arquivo ausente ou corrompido -> memória vazia
+
+
+def save_sent_today(headlines: list[dict]):
+    with open(SENT_TODAY_FILE, "w", encoding="utf-8") as f:
+        json.dump(
+            {"date": now_brt().strftime("%Y-%m-%d"),
+             "headlines": headlines[-MAX_SENT_TODAY:]},
+            f, ensure_ascii=False, indent=2,
+        )
+
+
+def format_sent_today(headlines: list[dict]) -> str:
+    if not headlines:
+        return "(nada enviado ainda hoje)"
+    return "\n".join(f"- [{h.get('time', '')}] {h['headline']}" for h in headlines)
+
+
+# ---------------------------------------------------------------
+# 3. Filtro + redação com Claude (duas passadas)
+# ---------------------------------------------------------------
+
+def call_claude(prompt: str, max_tokens: int) -> str:
+    """Uma chamada ao Haiku. Devolve o texto já sem cercas de markdown."""
+    resp = requests.post(
+        "https://api.anthropic.com/v1/messages",
+        headers={
+            "x-api-key": ANTHROPIC_API_KEY,
+            "anthropic-version": "2023-06-01",
+            "content-type": "application/json",
+        },
+        json={
+            "model": ANTHROPIC_MODEL,
+            "max_tokens": max_tokens,
+            "thinking": {"type": "disabled"},   # sem raciocínio: controla custo e não come o max_tokens
+            "messages": [{"role": "user", "content": prompt}],
+        },
+        timeout=120,
+    )
+    resp.raise_for_status()
+    text = resp.json()["content"][0]["text"]
+    return text.replace("```json", "").replace("```", "").strip()
+
+
+def parse_claude_json(text: str):
+    """Extrai o primeiro objeto/array JSON da resposta, ignorando prosa em volta.
+    Haiku às vezes 'explica' fora do JSON — raw_decode lê só o primeiro valor
+    válido e descarta o 'Extra data' que vem depois."""
+    decoder = json.JSONDecoder()
+    for i, ch in enumerate(text):
+        if ch in "{[":
+            try:
+                obj, _ = decoder.raw_decode(text[i:])
+                return obj
+            except json.JSONDecodeError:
+                continue
+    raise json.JSONDecodeError("nenhum JSON encontrado na resposta", text, 0)
+
+
+# --- Passada 1: seleção (título + summary) -----------------------
+
+SELECT_PROMPT = """# CONTEXT
+Você faz a curadoria de um digest de notícias para um grupo de assessores de
+investimento (financial advisors) brasileiros. Dominam o vocabulário de mercado —
+Selic, DI, basis, carry, duration — e não precisam de explicação didática. O que
+importa é o que pode virar pergunta de cliente ou exigir reposicionamento de
+carteira.
+
+Abaixo, notícias recentes em JSON, cada uma com "title" e "summary" (trecho curto
+do RSS). Sua tarefa é APENAS SELECIONAR — não escreva manchete nem bullets agora.
+
+# OBJECTIVE
+Escolher as notícias com potencial real de mover mercados que o advisor acompanha.
+
+Priorize, nesta ordem:
+1. Política monetária e fiscal (Copom/BCB, Fed, ECB, Tesouro, arcabouço)
+2. Política doméstica COM transmissão a mercado: votações e reformas no Congresso
+   (tributária, fiscal, corte de gastos, meta), articulação do Executivo em torno
+   do fiscal, estabilidade do governo, trocas em ministérios econômicos (Fazenda,
+   Planejamento, BC), eleições e pesquisas que reprecificam risco fiscal ou câmbio
+3. Indicadores que reprecificam curva ou câmbio (IPCA, payroll, CPI, PIB, Focus)
+4. Crédito/risco sistêmico e movimentos setoriais amplos (não notícia de empresa
+   isolada, salvo se mover índice ou setor inteiro)
+5. Geopolítica e commodities com transmissão direta para ativos brasileiros
+
+Ignore: variação diária trivial de ativo, fofoca corporativa, matéria de opinião,
+conteúdo repetido (se duas cobrem o mesmo fato, escolha a fonte mais forte), e
+qualquer coisa sem consequência clara para alocação. Escopo geográfico: só o que
+afeta o mercado brasileiro ou os bancos centrais que transmitem para o Brasil.
+Evite também páginas "ao vivo" / cobertura em tempo real e colunas-resumo do dia
+("agenda", "o que acompanhar", "radar da manhã"): não têm texto extraível ou
+misturam vários assuntos. Prefira a matéria específica sobre o fato.
+
+Sobre política, a linha divisória é SEMPRE a transmissão a mercado: entra o fato
+político que move fiscal, curva ou câmbio (voto de reforma, risco à meta, crise
+que abre o risco-país). Fica de fora a fofoca partidária, o embate pessoal e o
+escândalo sem efeito fiscal ou de mercado.
+
+# JÁ ENVIADO HOJE
+As manchetes abaixo já foram enviadas ao grupo HOJE. NÃO selecione uma notícia
+cujo fato central já esteja nesta lista, mesmo que venha de outra fonte ou outro
+link — o grupo já viu. ÚNICA exceção: desdobramento com informação materialmente
+nova sobre o mesmo tema (ata divulgada após a decisão, novo número, revisão,
+reversão). Na dúvida entre repetição e fato novo, corte.
+
+{sent_today}
+
+# RESPONSE
+- No máximo {max_news} notícias. É melhor 2 fortes que 5 fracas. Se só houver 1
+  relevante, selecione 1. Se nenhuma for relevante, retorne lista vazia.
+- Se duas ou mais notícias cobrem o MESMO fato (ex.: a mesma alta do petróleo
+  relatada por fontes diferentes), selecione APENAS UMA — a de fonte mais forte ou
+  mais detalhada. Nunca encha o limite com variações do mesmo evento.
+- Quando houver mais candidatas que o limite, corte primeiro as de menor impacto
+  direto em preço de ativo brasileiro.
+- Ordene do MAIS para o MENOS relevante.
+- Responda SOMENTE com JSON válido, sem markdown, neste formato exato:
+{{"ids": ["...", "..."]}}
+
+Notícias:
+{headlines}"""
+
+
+def select_with_claude(articles: list[dict], sent_today: list[dict]) -> list[str]:
+    headlines = [
+        {"id": a["id"], "title": a["title"], "summary": a["summary"], "source": a["source"]}
+        for a in articles
+    ]
+    text = call_claude(
+        SELECT_PROMPT.format(
+            max_news=MAX_NEWS + SELECT_EXTRA,
+            sent_today=format_sent_today(sent_today),
+            headlines=json.dumps(headlines, ensure_ascii=False),
+        ),
+        max_tokens=500,
+    )
+    ids = parse_claude_json(text).get("ids", [])
+    valid = {a["id"] for a in articles}
+    # preserva a ordem de relevância, remove duplicatas e ids inválidos, aplica teto.
+    # Devolve MAX_NEWS + reserva: a redação usa as reservas só se descartar alguma.
+    seen, out = set(), []
+    for i in ids:
+        if i in valid and i not in seen:
+            seen.add(i)
+            out.append(i)
+    return out[:MAX_NEWS + SELECT_EXTRA]
+
+
+# --- Passada 2: redação (uma chamada por artigo, com o texto real) -----
+
+WRITE_PROMPT = """# CONTEXT
+Você escreve um item de digest para assessores de investimento brasileiros. São
+pares técnicos — dominam Selic, DI, carry, duration. Nada de explicação didática.
+
+Recebe UMA notícia já selecionada como relevante: o título e o TEXTO da matéria.
+Use o texto como fonte dos detalhes.
+
+# IDIOMA (crítico)
+O texto da matéria pode vir em INGLÊS (fontes como MarketWatch, BBC, CNBC). Escreva
+SEMPRE em português brasileiro fluente e idiomático — como um head de mesa brasileiro
+escreveria, não como uma tradução. NUNCA traduza ao pé da letra nem preserve a ordem
+de palavras ou as construções do inglês. Traduza o jargão para o termo usual do
+mercado brasileiro (ex.: "front-month" -> "primeiro vencimento"; "two-day gain" ->
+"alta em dois dias"). Se uma frase soaria estranha para um brasileiro, reescreva.
+
+# OBJECTIVE
+Escrever uma MANCHETE curta e de 2 a 3 BULLETS de detalhe, extraídos do texto.
+
+# STYLE
+Escreva para leitura rápida no celular. Frases naturais e correntes, uma afirmação
+por bullet. A densidade vem da SELEÇÃO, não do acúmulo: traga o dado que importa e
+corte o resto — nunca despeje todos os números da matéria num bullet só.
+
+Dados compactos, sem exagero:
+- Comparação de preferência inline: "desacelerou para 3,5%, ante 4,2% em maio".
+- Parêntese só para UMA referência pontual: "(vs. 5,7 em junho)". Nunca dois
+  parênteses na mesma frase, nem um em cada número.
+- Abreviações usuais em dose certa: m/m, a/a, p.p., bi, mi.
+
+Pontuação e estrutura:
+- Nada de ponto e vírgula. Dois fatos = dois bullets, ou frases separadas por ponto
+  final (a próxima começa com maiúscula).
+- Sem introdução, sem "segundo a matéria", sem paráfrase da manchete, sem adjetivo
+  desnecessário.
+- Se o texto não dá 2 bullets factuais, escreva menos.
+- Se utilizar ";", a próxima palavra deve começar com letra maiúscula
+
+EVITE (cram): "Dólar recua 0,33% a R$ 5,06 (semana -0,60%, mês -1,65%); Brent sobe
+0,39%." -> vira dois bullets, um por ativo, cada um com só o número central.
+
+# TONE
+Objetivo, profissional, seco. Como um head de mesa manda no grupo interno. Nunca
+alarmista, nunca promocional.
+
+# ANTI-INFERÊNCIA (regra mais importante)
+Leitura ou reação de mercado (mercado já precificava, curva abriu, ativo caiu)
+SOMENTE se o texto a afirmar. Você NUNCA infere direção de preço nem reação por
+conta própria. Na dúvida, reporte só o fato. Não dê recomendação nem opinião.
+
+# RESPONSE
+- "headline": manchete curta, no máximo 10 palavras, em PT-BR.
+- "bullets": 2 a 3 itens, cada um no máximo 20 palavras, em PT-BR, extraídos do
+  texto.
+- Se o texto NÃO sustentar a manchete — trata de outro assunto, é só uma lista de
+  manchetes soltas, é página "ao vivo" sem conteúdo, ou é um teaser sem dado
+  concreto — responda EXATAMENTE {{"skip": true}}. NUNCA escreva manchete ou
+  bullets dizendo que falta conteúdo; isso nunca deve chegar ao grupo.
+- Responda SOMENTE com JSON válido, sem markdown, neste formato exato:
+{{"headline": "...", "bullets": ["...", "..."]}}
+
+Notícia:
+Título: {title}
+Fonte: {source}
+Texto:
+{body}"""
+
+
+def write_item(article: dict) -> dict | None:
+    """Redige headline+bullets de UM artigo, com o corpo real (ou o summary
+    como fallback). Devolve None se a resposta vier vazia ou inválida."""
+    body = article.get("body") or article["summary"]
+    text = call_claude(
+        WRITE_PROMPT.format(
+            title=article["title"],
+            source=article["source"],
+            body=body,
+        ),
+        max_tokens=600,
+    )
+    try:
+        data = parse_claude_json(text)
+    except json.JSONDecodeError:
+        print(f"[warn] JSON inválido na redação de {article['id']}")
+        return None
+    if data.get("skip"):
+        print(f"[info] redação pulou (texto não sustenta a manchete): {article['title'][:70]}")
+        return None
+    headline = data.get("headline", "").strip()
+    bullets = [b.strip() for b in data.get("bullets", []) if b.strip()]
+    if not headline or not bullets:
+        return None
+    # trava extra: se o modelo ignorar o skip e escrever "texto não traz...", não envia
+    blob = (headline + " " + " ".join(bullets)).lower()
+    if any(m in blob for m in META_PHRASES):
+        print(f"[info] redação descartada (bullet meta): {article['title'][:70]}")
+        return None
+    return {**article, "headline": headline, "bullets": bullets}
+
+
+# Frases que denunciam bullet "meta" (o modelo falando do texto em vez do fato).
+META_PHRASES = (
+    "texto fornecido", "texto enviado", "texto disponível", "conteúdo disponível",
+    "sem conteúdo", "não traz detalhes", "não há dados", "não permite compor",
+    "manchetes soltas", "não relacionado", "não relacionados", "sem matéria completa",
+)
+
+
+# ---------------------------------------------------------------
+# 4. Mensagem + envio
+# ---------------------------------------------------------------
+
+def build_message(items: list[dict]) -> str:
+    now = now_brt()
+    lines = [f"*Radar de Mercado* — {now.strftime('%d/%m %Hh%M')}", ""]
+    for it in items:
+        lines.append(f"*{it['headline']}*")
+        for b in it["bullets"]:
+            b = b.rstrip()
+            if not b.endswith((".", "!", "?")):
+                b += "."
+            lines.append(f"• {b}")
+        lines.append(f"• Fonte: _{it['source']}_.")
+        lines.append("")
+    return "\n".join(lines).strip()
+
+
+def send_whatsapp(text: str, jid: str):
+    resp = requests.post(
+        f"{EVOLUTION_BASE_URL}/message/sendText/{EVOLUTION_INSTANCE}",
+        headers={"apikey": EVOLUTION_API_KEY, "content-type": "application/json"},
+        json={"number": jid, "text": text},
+        timeout=60,
+    )
+    if resp.status_code == 404:
+        raise RuntimeError(
+            f"Instância '{EVOLUTION_INSTANCE}' não encontrada (404). "
+            "O nome é case-sensitive — confira no Manager da Evolution "
+            "e ajuste o secret EVOLUTION_INSTANCE."
+        )
+    if resp.status_code in (401, 403):
+        raise RuntimeError(
+            "Autenticação recusada pela Evolution. Confira o secret EVOLUTION_API_KEY "
+            "e certifique-se de que EVOLUTION_BASE_URL não tem barra no final."
+        )
+    resp.raise_for_status()
+    print(f"[ok] mensagem enviada -> {jid}")
+
+
+def broadcast(text: str) -> int:
+    """Envia o mesmo digest para todos os grupos configurados. Falha em um grupo
+    (JID errado, bot não é membro, timeout) não impede os outros. Retorna quantos
+    grupos receberam com sucesso."""
+    entregues = 0
+    for i, jid in enumerate(WHATSAPP_GROUP_JIDS):
+        if i > 0:
+            time.sleep(BROADCAST_DELAY_SECONDS)   # buffer entre grupos, evita rajada
+        try:
+            send_whatsapp(text, jid)
+            entregues += 1
+        except Exception as ex:
+            print(f"[warn] falha ao enviar para {jid}: {ex}")
+    return entregues
+
+
+# ---------------------------------------------------------------
+# Main
+# ---------------------------------------------------------------
+
+def main():
+    sent = load_sent_ids()
+    sent_today = load_sent_today()   # já zerado se for um novo dia BRT
+    articles = [a for a in fetch_articles() if a["id"] not in sent]
+    print(f"[info] {len(articles)} headlines novas | {len(sent_today)} já enviadas hoje")
+    if not articles:
+        return
+
+    articles = articles[:MAX_ITEMS_TO_CLAUDE]
+
+    # Passada 1: seleção por título + summary
+    selected_ids = select_with_claude(articles, sent_today)
+    by_id = {a["id"]: a for a in articles}
+    selected = [by_id[i] for i in selected_ids]
+    print(f"[info] {len(selected)} selecionadas pelo Claude")
+
+    # Passada 2: para cada selecionada (em ordem de relevância), busca o corpo real,
+    # valida, redige. Para ao completar MAX_NEWS; as reservas só entram se houver
+    # descarte. Corpo inválido (página errada, teaser de paywall) cai pro summary.
+    items = []
+    for art in selected:
+        if len(items) >= MAX_NEWS:
+            break
+        body = fetch_article_body(art.get("link", ""))
+        if usable_body(body, art["title"], art["summary"]):
+            art["body"] = body
+        else:
+            print(f"[warn] corpo inválido/raso, usando summary: {art['title'][:70]}")
+        if w := write_item(art):
+            items.append(w)
+    print(f"[info] {len(items)} redigidas de {len(selected)} candidatas")
+
+    if items:
+        entregues = broadcast(build_message(items))
+        if entregues:
+            # registra na memória intra-day só o que foi realmente enviado
+            hora = now_brt().strftime("%Hh%M")
+            sent_today.extend({"time": hora, "headline": it["headline"]} for it in items)
+            save_sent_today(sent_today)
+        else:
+            # nenhum grupo recebeu -> falha alto e não avança estado, pra retentar no próximo ciclo
+            raise RuntimeError("Nenhum grupo recebeu a mensagem; abortando sem gravar estado.")
+
+    # marca TODAS as vistas (mesmo as descartadas) pra não reavaliar
+    sent.update(a["id"] for a in articles)
+    save_sent_ids(sent)
+
+
+if __name__ == "__main__":
+    main()
