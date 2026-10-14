@@ -33,7 +33,7 @@ jobs:
       - name: Rodar o agente
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_MODEL: claude-sonnet-5-5   # troque se quiser outro modelo
+          ANTHROPIC_MODEL: claude-sonnet-5   # troque se quiser outro modelo
           EVOLUTION_BASE_URL: ${{ secrets.EVOLUTION_BASE_URL }}
           EVOLUTION_API_KEY: ${{ secrets.EVOLUTION_API_KEY }}
           EVOLUTION_INSTANCE: ${{ secrets.EVOLUTION_INSTANCE }}
