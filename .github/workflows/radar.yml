@@ -2,52 +2,37 @@ name: Radar de Mercado
 
 on:
   schedule:
-    # GitHub usa UTC. BRT = UTC-3 (sem horário de verão).
-    - cron: "5 10 * * *"   # 07:05 BRT
-    - cron: "5 21 * * *"   # 18:05 BRT
-  workflow_dispatch:        # permite rodar manualmente pelo botão "Run workflow"
+    - cron: "0 10,21 * * 1-5"  
+  workflow_dispatch: {}          # permite rodar manualmente
 
 permissions:
-  contents: write           # necessário para commitar sent_ids.json e sent_today.json
-
-concurrency:
-  group: radar-mercado      # evita duas execuções ao mesmo tempo
-  cancel-in-progress: false
+  contents: write                # necessário pra commitar sent_ids.json
 
 jobs:
   run:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
-
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-          cache: pip
 
-      - name: Instalar dependências
-        run: pip install -r requirements.txt
+      - run: pip install -r requirements.txt
 
-      - name: Rodar o agente
+      - name: Rodar agente
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          ANTHROPIC_MODEL: claude-sonnet-5   # troque se quiser outro modelo
           EVOLUTION_BASE_URL: ${{ secrets.EVOLUTION_BASE_URL }}
           EVOLUTION_API_KEY: ${{ secrets.EVOLUTION_API_KEY }}
           EVOLUTION_INSTANCE: ${{ secrets.EVOLUTION_INSTANCE }}
           WHATSAPP_GROUP_JID: ${{ secrets.WHATSAPP_GROUP_JID }}
         run: python news_agent.py
 
-      - name: Salvar estado de envios no repositório
-        if: always()
+      - name: Persistir estado de dedupe
         run: |
-          if [ -n "$(git status --porcelain sent_ids.json sent_today.json)" ]; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add sent_ids.json sent_today.json
-            git commit -m "chore: atualiza estado de envios"
-            git pull --rebase
-            git push
-          fi
+          git config user.name "news-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add sent_ids.json sent_today.json || true
+          git diff --cached --quiet || git commit -m "update sent state [skip ci]"
+          git push
