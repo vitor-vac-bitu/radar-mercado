@@ -1,45 +1,25 @@
 {
-  "date": "2026-10-14",
+  "date": "2026-10-15",
   "headlines": [
     {
-      "time": "16h07",
-      "headline": "Citi revê aposta e vê alta de juros do Fed em dezembro"
+      "time": "07h30",
+      "headline": "Risco de crédito em IA contamina mercado global"
     },
     {
-      "time": "16h07",
-      "headline": "BC cancela leilão de swap cambial pelo 2º dia"
+      "time": "07h30",
+      "headline": "CPI dos EUA acelera para 3,7% em 12 meses"
     },
     {
-      "time": "16h07",
-      "headline": "Tesouro volta a mirar tributação de títulos incentivados"
+      "time": "07h30",
+      "headline": "Brasil vive 'fadiga fiscal' desde 2017, diz estudo"
     },
     {
-      "time": "16h07",
-      "headline": "IBGE vê desequilíbrio sob estabilidade em serviços"
+      "time": "07h30",
+      "headline": "Tecnologia puxa queda forte nas bolsas da Ásia"
     },
     {
-      "time": "16h07",
-      "headline": "Governo estuda prorrogar IPI até início de 2027"
-    },
-    {
-      "time": "18h28",
-      "headline": "Senado vota PEC do fim da escala 6x1"
-    },
-    {
-      "time": "18h28",
-      "headline": "Petróleo sobe com tensão geopolítica no Oriente Médio"
-    },
-    {
-      "time": "18h28",
-      "headline": "Dólar sobe com CPI americano mais forte"
-    },
-    {
-      "time": "18h28",
-      "headline": "DI fecha perto da estabilidade com alívio externo"
-    },
-    {
-      "time": "18h28",
-      "headline": "BoE vê risco maior de petróleo pressionar inflação"
+      "time": "07h30",
+      "headline": "Dólar sobe com CPI dos EUA e cautela eleitoral"
     }
   ]
 }
