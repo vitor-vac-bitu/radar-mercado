@@ -1,45 +1,25 @@
 {
-  "date": "2026-10-15",
+  "date": "2026-10-16",
   "headlines": [
     {
-      "time": "07h30",
-      "headline": "Risco de crédito em IA contamina mercado global"
+      "time": "07h32",
+      "headline": "Mercado volta à defensiva com disputa eleitoral mais acirrada"
     },
     {
-      "time": "07h30",
-      "headline": "CPI dos EUA acelera para 3,7% em 12 meses"
+      "time": "07h32",
+      "headline": "Ásia sobe com alívio em tech, Indonésia despenca"
     },
     {
-      "time": "07h30",
-      "headline": "Brasil vive 'fadiga fiscal' desde 2017, diz estudo"
+      "time": "07h32",
+      "headline": "Alocadores ajustam carteiras com cautela antes do 2º turno"
     },
     {
-      "time": "07h30",
-      "headline": "Tecnologia puxa queda forte nas bolsas da Ásia"
+      "time": "07h32",
+      "headline": "Lula promete manter política fiscal se reeleito"
     },
     {
-      "time": "07h30",
-      "headline": "Dólar sobe com CPI dos EUA e cautela eleitoral"
-    },
-    {
-      "time": "18h30",
-      "headline": "Juros futuros sobem forte com estresse eleitoral"
-    },
-    {
-      "time": "18h30",
-      "headline": "Dólar dispara a R$ 5,0871 com ruído político"
-    },
-    {
-      "time": "18h30",
-      "headline": "J.P. Morgan reduz PIB de 2026 e eleva inflação"
-    },
-    {
-      "time": "18h30",
-      "headline": "UBS eleva ações brasileiras para 'atraente' após 1º turno"
-    },
-    {
-      "time": "18h30",
-      "headline": "Mercado eleva projeção de déficit primário para 2026"
+      "time": "07h32",
+      "headline": "TCU trava contas do BC até definir caso Master"
     }
   ]
 }
