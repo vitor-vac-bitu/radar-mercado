@@ -1,41 +1,25 @@
 {
-  "date": "2026-10-19",
+  "date": "2026-10-20",
   "headlines": [
     {
-      "time": "07h32",
-      "headline": "Aposta eleitoral atrai R$ 18,5 bi para a bolsa"
-    },
-    {
-      "time": "07h32",
+      "time": "07h28",
       "headline": "Governo remaneja R$ 20 bi no Orçamento de 2027"
     },
     {
-      "time": "07h32",
-      "headline": "PIB da China acelera 4,5% no 3º tri, acima do esperado"
+      "time": "07h28",
+      "headline": "Superávit do petróleo bate recorde até setembro"
     },
     {
-      "time": "07h32",
-      "headline": "Fed deve manter juros estáveis na próxima reunião"
+      "time": "07h28",
+      "headline": "Spread de debêntures incentivadas vai a máxima desde 2023"
     },
     {
-      "time": "18h28",
-      "headline": "Dólar fecha a R$ 5,04 em meio à reta eleitoral"
+      "time": "07h28",
+      "headline": "Investidor eleva exigências para crédito privado"
     },
     {
-      "time": "18h28",
-      "headline": "Dólar recua com ajuste de posições para 2º turno"
-    },
-    {
-      "time": "18h28",
-      "headline": "Focus mantém IPCA 2026 e eleva 2027"
-    },
-    {
-      "time": "18h28",
-      "headline": "Foco de Newcastle em SC derruba MBRF3 e JBS"
-    },
-    {
-      "time": "18h28",
-      "headline": "Rali com guinada à direita na América Latina perde força"
+      "time": "07h28",
+      "headline": "Dólar cai sozinho em dia de ativos estáveis"
     }
   ]
 }
