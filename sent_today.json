@@ -1,45 +1,25 @@
 {
-  "date": "2026-10-20",
+  "date": "2026-10-21",
   "headlines": [
     {
-      "time": "07h28",
-      "headline": "Governo remaneja R$ 20 bi no Orçamento de 2027"
+      "time": "07h32",
+      "headline": "Curva de juros ainda reflete desconfiança fiscal"
     },
     {
-      "time": "07h28",
-      "headline": "Superávit do petróleo bate recorde até setembro"
+      "time": "07h32",
+      "headline": "Flávio Bolsonaro e Lula empatados em pesquisa Meio/Ideia"
     },
     {
-      "time": "07h28",
-      "headline": "Spread de debêntures incentivadas vai a máxima desde 2023"
+      "time": "07h32",
+      "headline": "Dólar recua a R$ 5,01 e Ibovespa bate 208 mil pontos"
     },
     {
-      "time": "07h28",
-      "headline": "Investidor eleva exigências para crédito privado"
+      "time": "07h32",
+      "headline": "Flávio soma promessas que pesam contra ajuste fiscal"
     },
     {
-      "time": "07h28",
-      "headline": "Dólar cai sozinho em dia de ativos estáveis"
-    },
-    {
-      "time": "18h29",
-      "headline": "DI futuro cai forte com otimismo eleitoral por Bolsonaro"
-    },
-    {
-      "time": "18h29",
-      "headline": "Ibovespa sobe 1,57% com trade eleitoral após 1º turno"
-    },
-    {
-      "time": "18h29",
-      "headline": "Juros do Tesouro Direto recuam com pesquisas eleitorais"
-    },
-    {
-      "time": "18h29",
-      "headline": "Petróleo passa de US$ 111 com tensão no Oriente Médio"
-    },
-    {
-      "time": "18h29",
-      "headline": "Risco-país da Argentina supera 700 pontos"
+      "time": "07h32",
+      "headline": "TCU aprova contas do BC de 2025"
     }
   ]
 }
