@@ -1,37 +1,25 @@
 {
-  "date": "2026-10-22",
+  "date": "2026-10-23",
   "headlines": [
     {
-      "time": "07h32",
-      "headline": "Petróleo sobe na Ásia com tensão EUA-Irã"
+      "time": "07h30",
+      "headline": "Mercado reforça hedge antes do 2º turno"
     },
     {
-      "time": "07h32",
-      "headline": "Pacotes eleitorais ameaçam ajuste fiscal de 2027"
+      "time": "07h30",
+      "headline": "Focus vê PIB de 2027 encolhendo para 1,32%"
     },
     {
-      "time": "07h32",
-      "headline": "Grupo entrega carta a Alckmin com pauta fiscal"
+      "time": "07h30",
+      "headline": "Datafolha mostra Lula e Flávio tecnicamente empatados"
     },
     {
-      "time": "18h29",
-      "headline": "Juros futuros sobem com cautela eleitoral e risco externo"
+      "time": "07h30",
+      "headline": "Irã reporta ataques a sete navios em Ormuz"
     },
     {
-      "time": "18h29",
-      "headline": "Brent sobe 4% e passa de US$ 113"
-    },
-    {
-      "time": "18h29",
-      "headline": "Dólar sobe a R$ 5,03 com petróleo e eleições no radar"
-    },
-    {
-      "time": "18h29",
-      "headline": "Durigan mantém previsão de superávit em 2027"
-    },
-    {
-      "time": "18h29",
-      "headline": "Morgan Stanley vê alta de até 50% para ações brasileiras"
+      "time": "07h30",
+      "headline": "Aversão a risco global pressiona ativos locais"
     }
   ]
 }
