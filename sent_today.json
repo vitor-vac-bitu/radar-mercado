@@ -1,45 +1,25 @@
 {
-  "date": "2026-10-23",
+  "date": "2026-10-26",
   "headlines": [
     {
-      "time": "07h30",
-      "headline": "Mercado reforça hedge antes do 2º turno"
+      "time": "07h37",
+      "headline": "JPMorgan vê Ibovespa -20% e dólar a R$ 5,50 após vitória de Lula"
     },
     {
-      "time": "07h30",
-      "headline": "Focus vê PIB de 2027 encolhendo para 1,32%"
+      "time": "07h37",
+      "headline": "Real cai 10% no futuro após reeleição de Lula"
     },
     {
-      "time": "07h30",
-      "headline": "Datafolha mostra Lula e Flávio tecnicamente empatados"
+      "time": "07h37",
+      "headline": "Sem mexer em indexação, Selic cai menos"
     },
     {
-      "time": "07h30",
-      "headline": "Irã reporta ataques a sete navios em Ormuz"
+      "time": "07h37",
+      "headline": "Planejamento mantém ajuste fiscal gradual"
     },
     {
-      "time": "07h30",
-      "headline": "Aversão a risco global pressiona ativos locais"
-    },
-    {
-      "time": "18h28",
-      "headline": "IPCA-15 de outubro vem abaixo do esperado"
-    },
-    {
-      "time": "18h28",
-      "headline": "Brent fecha no maior nível desde maio"
-    },
-    {
-      "time": "18h28",
-      "headline": "Goldman vê risco de reajuste de 50% no diesel"
-    },
-    {
-      "time": "18h28",
-      "headline": "Durigan descarta ajuste fiscal de R$ 200 bi em um ano"
-    },
-    {
-      "time": "18h28",
-      "headline": "Dólar cai a R$ 4,99 na véspera do 2º turno"
+      "time": "07h37",
+      "headline": "Reeleição de Lula pode gerar pregão turbulento"
     }
   ]
 }
