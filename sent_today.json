@@ -1,45 +1,13 @@
 {
-  "date": "2026-10-26",
+  "date": "2026-10-27",
   "headlines": [
     {
-      "time": "07h37",
-      "headline": "JPMorgan vê Ibovespa -20% e dólar a R$ 5,50 após vitória de Lula"
+      "time": "07h35",
+      "headline": "Dólar dispara após reeleição de Lula"
     },
     {
-      "time": "07h37",
-      "headline": "Real cai 10% no futuro após reeleição de Lula"
-    },
-    {
-      "time": "07h37",
-      "headline": "Sem mexer em indexação, Selic cai menos"
-    },
-    {
-      "time": "07h37",
-      "headline": "Planejamento mantém ajuste fiscal gradual"
-    },
-    {
-      "time": "07h37",
-      "headline": "Reeleição de Lula pode gerar pregão turbulento"
-    },
-    {
-      "time": "18h31",
-      "headline": "Morgan Stanley traça cenário de dominância fiscal com dólar a R$ 6"
-    },
-    {
-      "time": "18h31",
-      "headline": "CDS do Brasil salta ao maior nível desde março"
-    },
-    {
-      "time": "18h31",
-      "headline": "BTG vê Ibovespa -17% e juro real acima de 8%"
-    },
-    {
-      "time": "18h31",
-      "headline": "Fonteles desponta como favorito à Fazenda em 2027"
-    },
-    {
-      "time": "18h31",
-      "headline": "Focus reduz IPCA de 2026 e Selic de 2027"
+      "time": "07h35",
+      "headline": "Governo retomará proposta de mirar centro da meta fiscal"
     }
   ]
 }
