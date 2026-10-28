@@ -1,33 +1,21 @@
 {
-  "date": "2026-10-27",
+  "date": "2026-10-28",
   "headlines": [
     {
-      "time": "07h35",
-      "headline": "Dólar dispara após reeleição de Lula"
+      "time": "07h42",
+      "headline": "EWZ tem queda rara de 19,8%, dizem analistas"
     },
     {
-      "time": "07h35",
-      "headline": "Governo retomará proposta de mirar centro da meta fiscal"
+      "time": "07h42",
+      "headline": "Estrangeiro faz compra recorde de dólar após eleição"
     },
     {
-      "time": "18h32",
-      "headline": "Fazenda enviará projeto para travar centro da meta fiscal em 2027"
+      "time": "07h42",
+      "headline": "Governo articula agenda fiscal com Congresso"
     },
     {
-      "time": "18h32",
-      "headline": "DI cede forte com recompra de NTN-Bs pelo Tesouro"
-    },
-    {
-      "time": "18h32",
-      "headline": "Tesouro anuncia nova recompra de NTN-B"
-    },
-    {
-      "time": "18h32",
-      "headline": "Dólar recua 0,97% e corrige disparada pós-eleição"
-    },
-    {
-      "time": "18h32",
-      "headline": "Tesouro recompra 95,4% de lote de NTN-B"
+      "time": "07h42",
+      "headline": "Pacote fiscal do governo soma R$ 242 bi até 2030"
     }
   ]
 }
