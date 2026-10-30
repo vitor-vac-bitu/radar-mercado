@@ -1,45 +1,25 @@
 {
-  "date": "2026-10-29",
+  "date": "2026-10-30",
   "headlines": [
     {
-      "time": "07h43",
-      "headline": "Ibovespa cai 2,68% no terceiro pregão seguido no vermelho"
+      "time": "07h44",
+      "headline": "Reeleição de Lula piora expectativas de inflação no mercado"
     },
     {
-      "time": "07h43",
-      "headline": "TCU fixa CBS de referência em 11,3%"
+      "time": "07h44",
+      "headline": "IFI vê déficit de 1% do PIB em 2027 com pacote eleitoral"
     },
     {
-      "time": "07h43",
-      "headline": "Lula terá menor base consistente desde Collor, aponta Diap"
+      "time": "07h44",
+      "headline": "CBS de 11,3% pode levar IVA brasileiro ao topo global"
     },
     {
-      "time": "07h43",
-      "headline": "Governo quer poder contingenciar despesas blindadas por lei"
+      "time": "07h44",
+      "headline": "Dólar sobe a R$ 5,39 e Ibovespa cai pela 4ª vez seguida"
     },
     {
-      "time": "07h43",
-      "headline": "Cancelamento de leilão de LFTs é bem recebido pelo mercado"
-    },
-    {
-      "time": "18h37",
-      "headline": "Fonteles na Fazenda anima mercado local"
-    },
-    {
-      "time": "18h37",
-      "headline": "Juros longos sobem, mas Fonteles na Fazenda acalma mercado"
-    },
-    {
-      "time": "18h37",
-      "headline": "IFI vê déficit de 1% do PIB em 2027 com novos gastos"
-    },
-    {
-      "time": "18h37",
-      "headline": "IFI vê ajuste fiscal de 3 p.p. do PIB após medidas eleitas"
-    },
-    {
-      "time": "18h37",
-      "headline": "Lagarde renuncia ao BCE e sai antes do fim do mandato"
+      "time": "07h44",
+      "headline": "OCDE vê ajuste fiscal global pesado até 2060, Brasil fica de fora do estudo"
     }
   ]
 }
