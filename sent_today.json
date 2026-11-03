@@ -1,45 +1,25 @@
 {
-  "date": "2026-10-30",
+  "date": "2026-11-03",
   "headlines": [
     {
-      "time": "07h44",
-      "headline": "Reeleição de Lula piora expectativas de inflação no mercado"
+      "time": "19h40",
+      "headline": "Especulação sobre guinada heterodoxa dispara inflação implícita"
     },
     {
-      "time": "07h44",
-      "headline": "IFI vê déficit de 1% do PIB em 2027 com pacote eleitoral"
+      "time": "19h40",
+      "headline": "Dólar fecha no maior nível do ano com temor fiscal"
     },
     {
-      "time": "07h44",
-      "headline": "CBS de 11,3% pode levar IVA brasileiro ao topo global"
+      "time": "19h40",
+      "headline": "Juros futuros sobem com ruído sobre política econômica"
     },
     {
-      "time": "07h44",
-      "headline": "Dólar sobe a R$ 5,39 e Ibovespa cai pela 4ª vez seguida"
+      "time": "19h40",
+      "headline": "Tesouro vê dívida bruta no pico de 89,7% do PIB em 2030"
     },
     {
-      "time": "07h44",
-      "headline": "OCDE vê ajuste fiscal global pesado até 2060, Brasil fica de fora do estudo"
-    },
-    {
-      "time": "18h34",
-      "headline": "Copom vira âncora única em meio a dúvida fiscal no Lula 4"
-    },
-    {
-      "time": "18h34",
-      "headline": "DI futuro sobe com piora fiscal pós-eleição"
-    },
-    {
-      "time": "18h34",
-      "headline": "Dólar tem pior semana desde 2008"
-    },
-    {
-      "time": "18h34",
-      "headline": "IFI vê déficit de 1% do PIB em 2027 com pacote eleitoral"
-    },
-    {
-      "time": "18h34",
-      "headline": "Resgates em fundos de crédito e infra aceleram em outubro"
+      "time": "19h40",
+      "headline": "Focus eleva IPCA e Selic de 2026 a 2028"
     }
   ]
 }
