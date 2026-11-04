@@ -1,45 +1,25 @@
 {
-  "date": "2026-11-03",
+  "date": "2026-11-04",
   "headlines": [
     {
-      "time": "19h40",
-      "headline": "Especulação sobre guinada heterodoxa dispara inflação implícita"
+      "time": "14h55",
+      "headline": "Copom decide hoje entre corte e manutenção da Selic"
     },
     {
-      "time": "19h40",
-      "headline": "Dólar fecha no maior nível do ano com temor fiscal"
+      "time": "14h55",
+      "headline": "Mercado vê Copom pausando cortes da Selic"
     },
     {
-      "time": "19h40",
-      "headline": "Juros futuros sobem com ruído sobre política econômica"
+      "time": "14h55",
+      "headline": "Mercado vê Selic parada em 13,75% após eleição"
     },
     {
-      "time": "19h40",
-      "headline": "Tesouro vê dívida bruta no pico de 89,7% do PIB em 2030"
+      "time": "14h55",
+      "headline": "DI futuro recua com alívio de prêmios no exterior"
     },
     {
-      "time": "19h40",
-      "headline": "Focus eleva IPCA e Selic de 2026 a 2028"
-    },
-    {
-      "time": "22h11",
-      "headline": "Lara Resende propõe Selic a 7,5% em 12 meses"
-    },
-    {
-      "time": "22h11",
-      "headline": "Cochrane vê proposta de Lara Resende com ceticismo"
-    },
-    {
-      "time": "22h11",
-      "headline": "Ministro leva recado fiscal a investidores em Londres"
-    },
-    {
-      "time": "22h11",
-      "headline": "Brasil deve receber proposta dos EUA sobre tarifaço"
-    },
-    {
-      "time": "22h11",
-      "headline": "Crise no Ueno Bank derruba chefe do BC paraguaio"
+      "time": "14h55",
+      "headline": "Estrangeiro completa 7º pregão seguido de saída da bolsa"
     }
   ]
 }
