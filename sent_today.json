@@ -1,45 +1,25 @@
 {
-  "date": "2026-11-04",
+  "date": "2026-11-05",
   "headlines": [
     {
-      "time": "14h55",
-      "headline": "Copom decide hoje entre corte e manutenção da Selic"
+      "time": "14h57",
+      "headline": "Copom mantém Selic e dólar sobe nesta quinta"
     },
     {
-      "time": "14h55",
-      "headline": "Mercado vê Copom pausando cortes da Selic"
+      "time": "14h57",
+      "headline": "Fiesp corta projeção industrial de 2026 para 0,4%"
     },
     {
-      "time": "14h55",
-      "headline": "Mercado vê Selic parada em 13,75% após eleição"
+      "time": "14h57",
+      "headline": "Inadimplência de alta renda sobe quase 40% em 12 meses"
     },
     {
-      "time": "14h55",
-      "headline": "DI futuro recua com alívio de prêmios no exterior"
+      "time": "14h57",
+      "headline": "Gestores veem risco fiscal e ficam mais defensivos"
     },
     {
-      "time": "14h55",
-      "headline": "Estrangeiro completa 7º pregão seguido de saída da bolsa"
-    },
-    {
-      "time": "22h25",
-      "headline": "Canvas vê piora do Focus por trás da pausa do Copom"
-    },
-    {
-      "time": "22h25",
-      "headline": "BV vê Copom cauteloso e sem sinalização de rumo"
-    },
-    {
-      "time": "22h25",
-      "headline": "CNI corta projeção do PIB 2026 para 1,6%"
-    },
-    {
-      "time": "22h25",
-      "headline": "Caged mostra criação de emprego formal mais fraca desde 2020"
-    },
-    {
-      "time": "22h25",
-      "headline": "Petróleo desaba após vitória democrata nas midterms"
+      "time": "14h57",
+      "headline": "Aneel mira regras mais duras para energia solar por assinatura"
     }
   ]
 }
