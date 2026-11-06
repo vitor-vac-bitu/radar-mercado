@@ -1,45 +1,25 @@
 {
-  "date": "2026-11-05",
+  "date": "2026-11-06",
   "headlines": [
     {
-      "time": "14h57",
-      "headline": "Copom mantém Selic e dólar sobe nesta quinta"
+      "time": "14h20",
+      "headline": "Governo estuda ampliar base contingenciável em 20%"
     },
     {
-      "time": "14h57",
-      "headline": "Fiesp corta projeção industrial de 2026 para 0,4%"
+      "time": "14h20",
+      "headline": "Bradesco piora projeções e adia cortes da Selic para 2027"
     },
     {
-      "time": "14h57",
-      "headline": "Inadimplência de alta renda sobe quase 40% em 12 meses"
+      "time": "14h20",
+      "headline": "XP piora cenário macro para 2026-2027"
     },
     {
-      "time": "14h57",
-      "headline": "Gestores veem risco fiscal e ficam mais defensivos"
+      "time": "14h20",
+      "headline": "Payroll dos EUA surpreende em outubro"
     },
     {
-      "time": "14h57",
-      "headline": "Aneel mira regras mais duras para energia solar por assinatura"
-    },
-    {
-      "time": "22h28",
-      "headline": "DI futuro cai forte após Copom e sinal fiscal"
-    },
-    {
-      "time": "22h28",
-      "headline": "Nasdaq entra em correção com forte venda em tecnologia"
-    },
-    {
-      "time": "22h28",
-      "headline": "Banxico surpreende com corte e vai a 6,25%"
-    },
-    {
-      "time": "22h28",
-      "headline": "Lagarde sinaliza possível alta de juros do BCE em dezembro"
-    },
-    {
-      "time": "22h28",
-      "headline": "Quebra do ueno bank derruba presidente do Paraguai"
+      "time": "14h20",
+      "headline": "Lula sinaliza ajuste fiscal e alinha discurso com Durigan"
     }
   ]
 }
