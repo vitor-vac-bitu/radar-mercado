@@ -1,45 +1,25 @@
 {
-  "date": "2026-11-06",
+  "date": "2026-11-09",
   "headlines": [
     {
-      "time": "14h20",
-      "headline": "Governo estuda ampliar base contingenciável em 20%"
+      "time": "19h11",
+      "headline": "Focus: Selic 2026 sobe e IPCA 2027 piora"
     },
     {
-      "time": "14h20",
-      "headline": "Bradesco piora projeções e adia cortes da Selic para 2027"
+      "time": "19h11",
+      "headline": "Focus adia próximo corte de Selic para março"
     },
     {
-      "time": "14h20",
-      "headline": "XP piora cenário macro para 2026-2027"
+      "time": "19h11",
+      "headline": "UBS mantém Brasil neutro por risco fiscal"
     },
     {
-      "time": "14h20",
-      "headline": "Payroll dos EUA surpreende em outubro"
+      "time": "19h11",
+      "headline": "DI futuro cai forte com tombo do petróleo"
     },
     {
-      "time": "14h20",
-      "headline": "Lula sinaliza ajuste fiscal e alinha discurso com Durigan"
-    },
-    {
-      "time": "21h49",
-      "headline": "DI cai pela 3ª sessão e devolve prêmio pós-eleição"
-    },
-    {
-      "time": "21h49",
-      "headline": "Tesouro retoma emissões aos poucos após estresse pós-eleição"
-    },
-    {
-      "time": "21h49",
-      "headline": "Genoa vê risco monetário maior que o fiscal para 2027"
-    },
-    {
-      "time": "21h49",
-      "headline": "Daly sinaliza novas altas de juros pelo Fed"
-    },
-    {
-      "time": "21h49",
-      "headline": "Brasil mantém maior juro real do mundo"
+      "time": "19h11",
+      "headline": "Focus eleva inflação de 2027 e adia corte da Selic"
     }
   ]
 }
