@@ -1,45 +1,25 @@
 {
-  "date": "2026-11-11",
+  "date": "2026-11-12",
   "headlines": [
     {
-      "time": "14h29",
-      "headline": "Base governista ensaia ajuste fiscal de até R$ 80 bi"
+      "time": "10h14",
+      "headline": "Pacote fiscal frustra mercado, juros longos disparam"
     },
     {
-      "time": "14h29",
-      "headline": "DXY bate máxima desde março com Fed mais hawkish"
+      "time": "10h14",
+      "headline": "Dólar sobe com pacote fiscal e tensão externa"
     },
     {
-      "time": "14h29",
-      "headline": "Governo articula PLP para reduzir pisos de saúde e educação"
+      "time": "10h14",
+      "headline": "Senado vota pacote fiscal com impacto de R$ 60 bi"
     },
     {
-      "time": "14h29",
-      "headline": "Gestoras mantêm cautela após derrocada eleitoral no mercado"
+      "time": "10h14",
+      "headline": "IPCA desacelera a 0,14% em outubro, mas 12 meses seguem acima do teto"
     },
     {
-      "time": "14h29",
-      "headline": "Sinal de ajuste fiscal derruba juros futuros"
-    },
-    {
-      "time": "23h00",
-      "headline": "Governo detalha PLP de ajuste fiscal no Senado"
-    },
-    {
-      "time": "23h00",
-      "headline": "Relator estima impacto fiscal de até R$ 54 bi em 2027"
-    },
-    {
-      "time": "23h00",
-      "headline": "Votação do PLP do ajuste fiscal adiada no Senado"
-    },
-    {
-      "time": "23h00",
-      "headline": "Verde corta bolsa local e compra dólar após eleição"
-    },
-    {
-      "time": "23h00",
-      "headline": "Galípolo reforça viés conservador do Copom"
+      "time": "10h14",
+      "headline": "Economistas veem pacote fiscal sem solução de longo prazo"
     }
   ]
 }
