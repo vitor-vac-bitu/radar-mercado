@@ -1,65 +1,25 @@
 {
-  "date": "2026-11-12",
+  "date": "2026-11-13",
   "headlines": [
     {
-      "time": "10h14",
-      "headline": "Pacote fiscal frustra mercado, juros longos disparam"
+      "time": "14h24",
+      "headline": "Senado aprova ajuste fiscal, mas PEC fica difícil em 2027"
     },
     {
-      "time": "10h14",
-      "headline": "Dólar sobe com pacote fiscal e tensão externa"
+      "time": "14h24",
+      "headline": "Senado aprova texto-base do ajuste fiscal"
     },
     {
-      "time": "10h14",
-      "headline": "Senado vota pacote fiscal com impacto de R$ 60 bi"
+      "time": "14h24",
+      "headline": "Câmara deve pautar ajuste fiscal na próxima semana"
     },
     {
-      "time": "10h14",
-      "headline": "IPCA desacelera a 0,14% em outubro, mas 12 meses seguem acima do teto"
+      "time": "14h24",
+      "headline": "Mercado monitora disputa por comando da Fazenda"
     },
     {
-      "time": "10h14",
-      "headline": "Economistas veem pacote fiscal sem solução de longo prazo"
-    },
-    {
-      "time": "14h45",
-      "headline": "BBAS3 derrete quase 10% após balanço fraco"
-    },
-    {
-      "time": "14h45",
-      "headline": "Ibovespa cai com pacote fiscal e tombo do BB"
-    },
-    {
-      "time": "14h45",
-      "headline": "Kapitalo não vê pragmatismo fiscal do governo Lula"
-    },
-    {
-      "time": "14h45",
-      "headline": "Itaúsa vê risco de estagnação ou recessão em 2027"
-    },
-    {
-      "time": "14h45",
-      "headline": "Agro especula perdão de dívida e derruba lucro do BB"
-    },
-    {
-      "time": "22h29",
-      "headline": "Relatório do PLP do ajuste fiscal sobe para R$ 56,1 bi"
-    },
-    {
-      "time": "22h29",
-      "headline": "DI dispara com PLP fiscal e pressão dos Treasuries"
-    },
-    {
-      "time": "22h29",
-      "headline": "Dólar bate R$ 5,65, maior nível em 17 meses"
-    },
-    {
-      "time": "22h29",
-      "headline": "Daly, do Fed, defende novos aumentos de juros"
-    },
-    {
-      "time": "22h29",
-      "headline": "Lucro fraco do BB pressiona saída de Tarciana Medeiros"
+      "time": "14h24",
+      "headline": "EUA abrem ano fiscal com déficit recorde em outubro"
     }
   ]
 }
