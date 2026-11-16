@@ -1,45 +1,25 @@
 {
-  "date": "2026-11-13",
+  "date": "2026-11-16",
   "headlines": [
     {
-      "time": "14h24",
-      "headline": "Senado aprova ajuste fiscal, mas PEC fica difícil em 2027"
+      "time": "09h57",
+      "headline": "IBC-Br tomba 0,9% no 3º tri, pior desde pandemia"
     },
     {
-      "time": "14h24",
-      "headline": "Senado aprova texto-base do ajuste fiscal"
+      "time": "09h57",
+      "headline": "Focus: IPCA 2027 sobe e Selic cai menos no ciclo"
     },
     {
-      "time": "14h24",
-      "headline": "Câmara deve pautar ajuste fiscal na próxima semana"
+      "time": "09h57",
+      "headline": "Dólar sobe forte e se aproxima de R$ 5,70"
     },
     {
-      "time": "14h24",
-      "headline": "Mercado monitora disputa por comando da Fazenda"
+      "time": "09h57",
+      "headline": "Promessas eleitorais somam R$ 40 bi e pressionam ajuste fiscal"
     },
     {
-      "time": "14h24",
-      "headline": "EUA abrem ano fiscal com déficit recorde em outubro"
-    },
-    {
-      "time": "22h04",
-      "headline": "Dólar fecha estável, mas sobe 2,66% na semana"
-    },
-    {
-      "time": "22h04",
-      "headline": "DI recua em ajuste após estresse fiscal da véspera"
-    },
-    {
-      "time": "22h04",
-      "headline": "Senado pode derrubar limite a compensação tributária no PLP"
-    },
-    {
-      "time": "22h04",
-      "headline": "Governadores eleitos reagem contra pacote fiscal no Senado"
-    },
-    {
-      "time": "22h04",
-      "headline": "Governo pressiona por rapidez no PLP do ajuste fiscal"
+      "time": "09h57",
+      "headline": "DI futuro sobe com piora da inflação no Focus"
     }
   ]
 }
