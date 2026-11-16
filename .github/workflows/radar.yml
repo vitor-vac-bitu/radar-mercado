@@ -2,7 +2,7 @@ name: Radar de Mercado
 
 on:
   schedule:
-    - cron: "47 9,20 * * 1-5"  
+    - cron: "47 6,18 * * 1-5"  
   workflow_dispatch: {}          # permite rodar manualmente
 
 permissions:
