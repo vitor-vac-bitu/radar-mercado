@@ -1,65 +1,25 @@
 {
-  "date": "2026-11-18",
+  "date": "2026-11-19",
   "headlines": [
     {
       "time": "07h31",
-      "headline": "Alta do dólar pressiona inflação e atividade em 2027"
+      "headline": "Dólar bate R$ 5,86 e juros futuros sobem"
     },
     {
       "time": "07h31",
-      "headline": "Senado adia votação de destaques do pacote fiscal"
+      "headline": "Senado aprova pacote fiscal e texto vai à Câmara"
     },
     {
       "time": "07h31",
-      "headline": "Mercado eleva projeção de déficit para 2026 e 2027"
+      "headline": "Monitor do PIB da FGV recua pela 1ª vez em 5 anos"
     },
     {
       "time": "07h31",
-      "headline": "Itaú vê ajuste fiscal como urgência central da economia"
+      "headline": "Queda de minério e petróleo pode pressionar o real"
     },
     {
       "time": "07h31",
-      "headline": "Senado aprova Brasil Soberano 3 contra tarifaço"
-    },
-    {
-      "time": "13h31",
-      "headline": "Morgan Stanley só vê corte da Selic em 2028"
-    },
-    {
-      "time": "13h31",
-      "headline": "TS Lombard reduz exposição ao Brasil e vira negativa no real"
-    },
-    {
-      "time": "13h31",
-      "headline": "Relator mantém veto à compensação cruzada no ajuste fiscal"
-    },
-    {
-      "time": "13h31",
-      "headline": "Le Grazie vê risco de alta da Selic no 2º trimestre"
-    },
-    {
-      "time": "13h31",
-      "headline": "Eurasia: Casa Civil pesa mais que Fazenda no quarto mandato"
-    },
-    {
-      "time": "19h31",
-      "headline": "Senado aprova ajuste fiscal e texto vai à Câmara"
-    },
-    {
-      "time": "19h31",
-      "headline": "Fed sinaliza mais altas de juros na ata"
-    },
-    {
-      "time": "19h31",
-      "headline": "Ibovespa cai 1,34% com PLP fiscal e bancos no vermelho"
-    },
-    {
-      "time": "19h31",
-      "headline": "BTG vê esforço fiscal insuficiente para estabilizar dívida"
-    },
-    {
-      "time": "19h31",
-      "headline": "Dólar bate R$ 5,86 e renova máxima em 19 meses"
+      "headline": "Câmara vota ajuste fiscal na segunda"
     }
   ]
 }
