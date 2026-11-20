@@ -1,65 +1,25 @@
 {
-  "date": "2026-11-19",
+  "date": "2026-11-20",
   "headlines": [
     {
       "time": "07h31",
-      "headline": "Dólar bate R$ 5,86 e juros futuros sobem"
+      "headline": "Dólar fecha a R$ 5,93, maior valor desde abril"
     },
     {
       "time": "07h31",
-      "headline": "Senado aprova pacote fiscal e texto vai à Câmara"
+      "headline": "Estrangeiros veem dólar podendo testar R$ 6,50"
     },
     {
       "time": "07h31",
-      "headline": "Monitor do PIB da FGV recua pela 1ª vez em 5 anos"
+      "headline": "Câmara mantém texto do Senado para ajuste fiscal"
     },
     {
       "time": "07h31",
-      "headline": "Queda de minério e petróleo pode pressionar o real"
+      "headline": "IFI vê ajuste fiscal insuficiente e pede reforma profunda"
     },
     {
       "time": "07h31",
-      "headline": "Câmara vota ajuste fiscal na segunda"
-    },
-    {
-      "time": "13h31",
-      "headline": "BC faz leilão de dólar após discurso de Lula"
-    },
-    {
-      "time": "13h31",
-      "headline": "BC faz leilão extraordinário e vende US$ 1 bi à vista"
-    },
-    {
-      "time": "13h31",
-      "headline": "Itaú BBA rebaixa Brasil e vê Ibovespa em 195 mil em 2027"
-    },
-    {
-      "time": "13h31",
-      "headline": "Juros futuros disparam com fiscal e indefinição na Fazenda"
-    },
-    {
-      "time": "13h31",
-      "headline": "Moretti vê dívida pública estável em até 3 anos"
-    },
-    {
-      "time": "19h31",
-      "headline": "Dólar sobe 5% na semana, BC intervém e não contém alta"
-    },
-    {
-      "time": "19h31",
-      "headline": "Ibovespa entra em bear market, abaixo de 20% do pico"
-    },
-    {
-      "time": "19h31",
-      "headline": "Relator defende texto do Senado no ajuste fiscal"
-    },
-    {
-      "time": "19h31",
-      "headline": "Ordem de US$ 1 bi por dólares levou BC a leilão extra"
-    },
-    {
-      "time": "19h31",
-      "headline": "IFI cobra ajuste fiscal profundo após medidas eleitorais"
+      "headline": "Governo pode taxar LCI, LCA e CRI via IOF"
     }
   ]
 }
