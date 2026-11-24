@@ -1,61 +1,25 @@
 {
-  "date": "2026-11-23",
+  "date": "2026-11-24",
   "headlines": [
     {
       "time": "07h31",
-      "headline": "Câmara vota ajuste fiscal nesta segunda"
+      "headline": "Câmara aprova pacote fiscal, texto vai à sanção"
     },
     {
       "time": "07h31",
-      "headline": "Reforma tributária pode pressionar inflação em 2027"
+      "headline": "Dólar bate R$ 6 pela primeira vez desde abril"
     },
     {
       "time": "07h31",
-      "headline": "Dólar perto de R$ 6 ameaça cenário fiscal"
+      "headline": "Focus piora expectativas de inflação pela 6ª semana"
     },
     {
       "time": "07h31",
-      "headline": "Estoque de crédito tributário pressiona capital dos bancos"
+      "headline": "Dólar a R$ 6 aciona alerta em Brasília"
     },
     {
-      "time": "13h31",
-      "headline": "Focus piora IPCA e Selic de 2027, dólar sobe"
-    },
-    {
-      "time": "13h31",
-      "headline": "Galípolo: juro é resposta a pressão cambial"
-    },
-    {
-      "time": "13h31",
-      "headline": "Dólar salta de R$ 5 a quase R$ 6 em um mês"
-    },
-    {
-      "time": "13h31",
-      "headline": "Galípolo rebate críticas sobre corte de Selic em 2025"
-    },
-    {
-      "time": "13h31",
-      "headline": "Real lidera perdas cambiais em um mês"
-    },
-    {
-      "time": "19h31",
-      "headline": "Câmara vota pacote fiscal em sessão extra nesta segunda"
-    },
-    {
-      "time": "19h31",
-      "headline": "PL fechará questão contra pacote fiscal na Câmara"
-    },
-    {
-      "time": "19h31",
-      "headline": "PT não apresentará destaques ao ajuste fiscal na Câmara"
-    },
-    {
-      "time": "19h31",
-      "headline": "Fazenda piora projeções de PIB e inflação para 2026-27"
-    },
-    {
-      "time": "19h31",
-      "headline": "Governo prioriza nomes 'amigáveis' para diretoria do BC"
+      "time": "07h31",
+      "headline": "Governo revisa PIB e inflação para 2027"
     }
   ]
 }
