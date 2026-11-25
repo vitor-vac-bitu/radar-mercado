@@ -1,65 +1,25 @@
 {
-  "date": "2026-11-24",
+  "date": "2026-11-25",
   "headlines": [
     {
       "time": "07h31",
-      "headline": "Câmara aprova pacote fiscal, texto vai à sanção"
+      "headline": "Governo revisa para cima déficit primário de 2026"
     },
     {
       "time": "07h31",
-      "headline": "Dólar bate R$ 6 pela primeira vez desde abril"
+      "headline": "Governo prepara nova PEC fiscal; dólar fecha a R$ 5,91"
     },
     {
       "time": "07h31",
-      "headline": "Focus piora expectativas de inflação pela 6ª semana"
+      "headline": "Ashmore vê dólar a R$ 8,20 sem ajuste fiscal"
     },
     {
       "time": "07h31",
-      "headline": "Dólar a R$ 6 aciona alerta em Brasília"
+      "headline": "Moody's vê risco à nota soberana do Brasil"
     },
     {
       "time": "07h31",
-      "headline": "Governo revisa PIB e inflação para 2027"
-    },
-    {
-      "time": "13h31",
-      "headline": "PEC de despesas obrigatórias anima mercado local"
-    },
-    {
-      "time": "13h31",
-      "headline": "Lula deve anunciar Fazenda e Segurança em breve"
-    },
-    {
-      "time": "13h31",
-      "headline": "Haddad volta a ser cotado para a Casa Civil"
-    },
-    {
-      "time": "13h31",
-      "headline": "Governo estuda novas medidas de ajuste fiscal"
-    },
-    {
-      "time": "13h31",
-      "headline": "Itaú vê sinal positivo em continuidade do ajuste fiscal"
-    },
-    {
-      "time": "19h31",
-      "headline": "DI futuro cai com expectativa de novo pacote fiscal"
-    },
-    {
-      "time": "19h31",
-      "headline": "Dólar cai 0,27% com otimismo fiscal moderado"
-    },
-    {
-      "time": "19h31",
-      "headline": "Alcolumbre condiciona PEC fiscal a acordo entre líderes"
-    },
-    {
-      "time": "19h31",
-      "headline": "Giannetti vê risco de recessão sem ajuste fiscal mais forte"
-    },
-    {
-      "time": "19h31",
-      "headline": "BCE deve subir juros em dezembro, diz Sleijpen"
+      "headline": "Confiança do consumidor cai em novembro"
     }
   ]
 }
